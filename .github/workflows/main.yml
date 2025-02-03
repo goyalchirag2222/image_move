@@ -1,27 +1,29 @@
 name: Move PNG Images
-
 on:
-  workflow_dispatch:  # This allows you to trigger the workflow manually.
+  workflow_dispatch:
 
 jobs:
   move-images:
-    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for this job.
-
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+        
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          # If you have additional dependencies, create a requirements.txt and install them here.
-          # pip install -r requirements.txt
-
+          
       - name: Run move images script
         run: |
-          python script.py  # This runs your script to move PNG images to the 'older' folder.
+          python script.py
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "Move PNG files to older directory" || echo "No changes to commit"
+          git push
