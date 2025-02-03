@@ -24,4 +24,4 @@ jobs:
 
       - name: Run move images script
         run: |
-          python move_images.py  # This runs your script to move PNG images to the 'older' folder.
+          python script.py  # This runs your script to move PNG images to the 'older' folder.
