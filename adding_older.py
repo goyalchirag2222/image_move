@@ -9,17 +9,17 @@ def process_issue_body(body):
     Process the issue body to update image paths.
     Adds '/older' before image.png in markdown image links.
     """
-    pattern = r'!\[.*?\]\((.*?\.(?:png|jpg|jpeg|gif))\)'
+    pattern = r'!\[.*?\]\((https?://.*?\.(?:png|jpg|jpeg|gif))\)'
     
     def replace_path(match):
         image_path = match.group(1)
         path_parts = image_path.split('/')
         if 'older' not in path_parts:
             if len(path_parts) == 1:
-                return f'![ScreenShot of Issue](older/{image_path})'
+                return f'![ScreenShot of Issue]({image_path}/older)'
             else:
                 path_parts.insert(-1, 'older')
-                return f'![ScreenShot of Issue]{"/".join(path_parts)}'
+                return f'![ScreenShot of Issue]({" / ".join(path_parts)})'
         return match.group(0)
     
     return re.sub(pattern, replace_path, body)
