@@ -43,8 +43,8 @@ def main():
     updated_count = 0
     for issue in issues:
         # Skip issues created after December 2024
-        if issue.created_at >= cutoff_date:
-            continue
+        # if issue.created_at >= cutoff_date:
+        #     continue
             
         # Check if the issue body contains image links
         if '![' in issue.body and '.png' in issue.body.lower():
