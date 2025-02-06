@@ -19,7 +19,7 @@ def process_issue_body(body):
                 return f'![ScreenShot of Issue]({image_path}/older)'
             else:
                 path_parts.insert(-1, 'older')
-                return f'![ScreenShot of Issue]({" / ".join(path_parts)})'
+                return f'![ScreenShot of Issue]({"/".join(path_parts)})'
         return match.group(0)
     
     return re.sub(pattern, replace_path, body)
