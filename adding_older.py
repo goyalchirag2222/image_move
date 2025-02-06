@@ -9,12 +9,10 @@ def process_issue_body(body):
     Process the issue body to update image paths.
     Adds '/older' before image.png in markdown image links.
     """
-    # Regular expression to match markdown image syntax
     pattern = r'!\[.*?\]\((.*?\.(?:png|jpg|jpeg|gif))\)'
     
     def replace_path(match):
         image_path = match.group(1)
-        # Split the path and add 'older' directory
         path_parts = image_path.split('/')
         if 'older' not in path_parts:
             if len(path_parts) == 1:
@@ -27,19 +25,14 @@ def process_issue_body(body):
     return re.sub(pattern, replace_path, body)
 
 def main():
-    # Get GitHub token from environment variable (using your custom secret)
-    github_token = os.getenv('MY_GITHUB_TOKEN')  # Changed to use custom token name
+    # Get GitHub token from environment variable
+    github_token = os.getenv('MY_GITHUB_TOKEN')
     if not github_token:
         raise ValueError("MY_GITHUB_TOKEN environment variable is not set")
     
-    # Get repository details from environment variables
-    repository = os.getenv('GITHUB_REPOSITORY')
-    if not repository:
-        raise ValueError("GITHUB_REPOSITORY environment variable is not set")
-    
-    # Initialize GitHub client
+    # Initialize GitHub client and specify the repository
     g = Github(github_token)
-    repo = g.get_repo(repository)
+    repo = g.get_repo("goyalchirag2222/image_move")  # Direct repository reference
     
     # Set cutoff date (December 2024)
     cutoff_date = datetime(2024, 12, 1, tzinfo=pytz.UTC)
