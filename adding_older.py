@@ -44,15 +44,16 @@ def main():
     
     updated_count = 0
     for issue in issues:
-        if issue.body and ('![' in issue.body or '<img' in issue.body):
-            try:
-                new_body = process_issue_body(issue.body)
-                if new_body != issue.body:
-                    issue.edit(body=new_body)
-                    print(f"Updated issue #{issue.number}: {issue.title}")
-                    updated_count += 1
-            except Exception as e:
-                print(f"Error processing issue #{issue.number}: {str(e)}")
+        if issue.created_at < cutoff_date:  # Only process issues created before cutoff_date
+            if issue.body and ('![' in issue.body or '<img' in issue.body):
+                try:
+                    new_body = process_issue_body(issue.body)
+                    if new_body != issue.body:
+                        issue.edit(body=new_body)
+                        print(f"Updated issue #{issue.number}: {issue.title}")
+                        updated_count += 1
+                except Exception as e:
+                    print(f"Error processing issue #{issue.number}: {str(e)}")
     
     print(f"\nProcess completed. Updated {updated_count} issues.")
 
